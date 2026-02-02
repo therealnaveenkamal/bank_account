@@ -1,6 +1,7 @@
 // bank_account.h - Simle bank account class definition
 #pragma once
 #include <stdexcept>
+#include <limits>
 
 class BankAccount {
     // private class member not visible outside the class
@@ -24,6 +25,10 @@ public:
     constexpr unsigned withdraw(unsigned amount)
     {
 		// TODO: throw exception if amount > _balance
+        if (amount > _balance){
+            throw std::runtime_error("amount cannot be greater than the balance.");
+        }
+
         _balance -= amount;
 
         return _balance;
@@ -31,6 +36,10 @@ public:
     constexpr unsigned deposit(unsigned amount)
     {
 		// TODO: throw exception if addition would cause overflow
+        if(amount > std::numeric_limits<unsigned>::max() - _balance){
+            throw std::runtime_error("deposit would cause overflow.");
+        }
+
         _balance += amount;
 
         return _balance;
